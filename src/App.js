@@ -18,7 +18,7 @@ function App() {
         </Route>
         <Route path="/sms" element={<Sms />} />
         <Route path="/addcontact" element={<AddContact />} />
-        <Route path="/calling" element={<Calling />} />
+        <Route path="/calling/:id" element={<Calling />} />
       </Routes>
     </main>
   );

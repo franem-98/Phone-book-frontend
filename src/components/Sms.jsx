@@ -3,7 +3,7 @@ import React from "react";
 function Sms() {
   return (
     <>
-      <h2>Text message</h2>
+      <h2 className="page-top">Text message</h2>
       <form>
         <div className="mb-3">
           <input

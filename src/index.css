@@ -34,6 +34,11 @@ body {
 .empty-list-warning {
   display: flex;
   justify-content: center;
+  margin-top: 10px;
+}
+
+.page-top {
+  margin-top: 30px;
 }
 
 .message-input {

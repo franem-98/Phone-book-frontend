@@ -1,7 +1,14 @@
 import React from "react";
+import { useLocation, useParams } from "react-router-dom";
 
 function Calling() {
-  return <h1>Calling</h1>;
+  const { id } = useParams();
+  const location = useLocation();
+  const contact = location.state;
+
+  let contactId = contact ? contact.name : id;
+
+  return <h1>Calling {contactId}...</h1>;
 }
 
 export default Calling;
