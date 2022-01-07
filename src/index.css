@@ -22,12 +22,12 @@ body {
 }
 
 .footer a,
-.call-button {
+.change-on-hover {
   color: black;
 }
 
 .footer a:hover,
-.call-button:hover {
+.change-on-hover:hover {
   color: #404040;
 }
 
@@ -43,6 +43,14 @@ body {
 
 .message-input {
   width: 100%;
+}
+
+.calling-page {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
 }
 
 code {

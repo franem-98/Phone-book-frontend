@@ -25,7 +25,7 @@ function Contacts() {
             <td>{contact.number}</td>
             <td>
               <Link
-                className="call-button"
+                className="change-on-hover"
                 to={`/calling/${contact.number}`}
                 state={contact}
               >
