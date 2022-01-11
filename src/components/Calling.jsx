@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useLocation, useParams, useNavigate } from "react-router-dom";
 
-//add seconds counter
+const callList = [];
 
 function Calling() {
   const [seconds, setSeconds] = useState(0);
@@ -20,14 +20,20 @@ function Calling() {
 
     if (seconds === secondLimit) {
       setCallTimedOut(true);
-      clearInterval(timer);
       setTimeout(() => {
         navigate(-1);
       }, 4000);
     }
 
-    return () => clearInterval(timer);
-  }, [seconds, setSeconds, navigate]);
+    return () => {
+      clearInterval(timer);
+      callList.push({
+        contact: contact ? contact : id,
+        duration: seconds,
+        endTime: new Date(),
+      });
+    };
+  }, [contact, id, seconds, setSeconds, navigate]);
 
   return (
     <div className="calling-page">
@@ -37,5 +43,7 @@ function Calling() {
     </div>
   );
 }
+
+export const history = callList;
 
 export default Calling;
