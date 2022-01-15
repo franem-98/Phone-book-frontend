@@ -53,6 +53,15 @@ body {
   transform: translate(-50%, -50%);
 }
 
+.hangup-icon {
+  color: red;
+}
+
+.hangup-icon:hover {
+  color: rgba(255, 0, 0, 0.7);
+  cursor: pointer;
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
