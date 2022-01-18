@@ -6,6 +6,8 @@ import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhoneSlash } from "@fortawesome/free-solid-svg-icons";
 
+//FIX THIS!!!
+
 function Calling() {
   const [contact, setContact] = useState(null);
   const [seconds, setSeconds] = useState(0);
@@ -18,21 +20,22 @@ function Calling() {
     async function setState() {
       const { data: contacts } = await getContacts();
       const existingContact = contacts.find((c) => c.number === id);
-      if (existingContact) setContact(existingContact.name);
+      if (existingContact)
+        setContact(`${existingContact.firstName} ${existingContact.lastName}`);
       else setContact(id);
     }
     setState();
+  }, [id]);
 
+  useEffect(() => {
     let timer = setInterval(() => {
       setSeconds(seconds + 1);
     }, 1000);
 
-    if (callTimedOut) clearInterval(timer);
-
     return () => {
       clearInterval(timer);
     };
-  }, [seconds, callTimedOut, id]);
+  }, [id, contact, seconds, callTimedOut]);
 
   const call = {
     contact,
@@ -55,22 +58,26 @@ function Calling() {
   if (seconds === secondLimit) setCallTimedOut(true);
   if (callTimedOut) handleTimeout();
 
+  console.log(seconds);
+
   return (
-    contact && (
-      <div className="calling-page">
-        <h1>Calling {contact}...</h1>
-        <h2>{seconds}</h2>
-        {callTimedOut && (
-          <p>Person is not answering. Please try again later.</p>
-        )}
-        <FontAwesomeIcon
-          className="hangup-icon"
-          onClick={handleHangup}
-          icon={faPhoneSlash}
-          size="2x"
-        />
-      </div>
-    )
+    <div className="calling-page">
+      {contact && (
+        <>
+          <h1>Calling {contact}...</h1>
+          <h2>{seconds}</h2>
+          {callTimedOut && (
+            <p>Person is not answering. Please try again later.</p>
+          )}
+          <FontAwesomeIcon
+            className="hangup-icon"
+            onClick={handleHangup}
+            icon={faPhoneSlash}
+            size="2x"
+          />
+        </>
+      )}
+    </div>
   );
 }
 

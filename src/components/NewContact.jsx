@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { saveContact } from "../services/contactService";
 
-function AddContact() {
+function NewContact() {
   const [data, setData] = useState({ firstName: "", lastName: "", number: "" });
   const navigate = useNavigate();
 
@@ -28,7 +28,7 @@ function AddContact() {
       <h1>New contact</h1>
       <form onSubmit={doSubmit}>
         <div className="mb-3">
-          <label class="form-label">First name</label>
+          <label className="form-label">First name</label>
           <input
             type="text"
             name="firstName"
@@ -39,7 +39,7 @@ function AddContact() {
           />
         </div>
         <div className="mb-3">
-          <label class="form-label">Last name</label>
+          <label className="form-label">Last name</label>
           <input
             type="text"
             name="lastName"
@@ -67,4 +67,4 @@ function AddContact() {
   );
 }
 
-export default AddContact;
+export default NewContact;

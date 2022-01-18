@@ -28,6 +28,9 @@ function SmsHistory() {
     }
   };
 
+  if (history && history.length === 0)
+    return <p className="empty-list-warning">SMS history is empty.</p>;
+
   return (
     <>
       <table className="table">

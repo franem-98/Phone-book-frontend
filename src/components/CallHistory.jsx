@@ -38,7 +38,6 @@ function CallHistory() {
 
   return (
     <>
-      (
       <table className="table">
         <tbody>
           {history.map(({ id, contact, duration, endTime }) => (
@@ -68,7 +67,6 @@ function CallHistory() {
           ))}
         </tbody>
       </table>
-      )
     </>
   );
 }

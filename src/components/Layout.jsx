@@ -6,23 +6,31 @@ import {
   faAddressBook,
   faUserPlus,
   faCommentAlt,
+  faPhone,
+  faListAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 function Layout() {
   return (
     <>
       <div className="footer">
+        <Link to="/dial">
+          <FontAwesomeIcon icon={faPhone} />
+        </Link>
         <Link to="/contacts">
           <FontAwesomeIcon icon={faAddressBook} />
         </Link>
-        <Link to="/history">
+        <Link to="/newcontact">
+          <FontAwesomeIcon icon={faUserPlus} />
+        </Link>
+        <Link to="/callhistory">
           <FontAwesomeIcon icon={faClock} />
         </Link>
-        <Link to="/smshistory">
+        <Link to="/newsms">
           <FontAwesomeIcon icon={faCommentAlt} />
         </Link>
-        <Link to="/addcontact">
-          <FontAwesomeIcon icon={faUserPlus} />
+        <Link to="/smshistory">
+          <FontAwesomeIcon icon={faListAlt} />
         </Link>
       </div>
       <Outlet />
