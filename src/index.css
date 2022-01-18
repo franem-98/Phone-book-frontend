@@ -28,7 +28,8 @@ body {
 
 .footer a:hover,
 .change-on-hover:hover {
-  color: #404040;
+  color: rgba(0, 0, 0, 0.8);
+  cursor: pointer;
 }
 
 .empty-list-warning {
@@ -60,6 +61,12 @@ body {
 .hangup-icon:hover {
   color: rgba(255, 0, 0, 0.7);
   cursor: pointer;
+}
+
+.message-container {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 60%;
 }
 
 code {

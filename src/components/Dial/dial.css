@@ -1,0 +1,47 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+.dial-grid {
+  display: grid;
+  margin-top: 2rem;
+  justify-content: center;
+  grid-template-columns: repeat(3, 4rem);
+  grid-template-rows: minmax(4rem, auto) repeat(5, 4rem);
+}
+
+.dial-grid > button {
+  font-size: 1.5rem;
+  color: white;
+  border: 1px solid white;
+  outline: none;
+  background-color: rgba(0, 0, 0, 0.75);
+}
+.dial-grid > button:hover,
+.dial-grid > button:focus {
+  background-color: black;
+}
+
+.call-button {
+  grid-column: 2/2;
+}
+
+.delete {
+  grid-column: 3/3;
+}
+
+.number-display {
+  grid-column: 1/3;
+  display: flex;
+  outline: 1px solid white;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.75);
+  color: white;
+}

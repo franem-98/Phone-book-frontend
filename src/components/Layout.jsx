@@ -18,7 +18,7 @@ function Layout() {
         <Link to="/history">
           <FontAwesomeIcon icon={faClock} />
         </Link>
-        <Link to="/sms">
+        <Link to="/smshistory">
           <FontAwesomeIcon icon={faCommentAlt} />
         </Link>
         <Link to="/addcontact">

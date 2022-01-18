@@ -1,47 +1,64 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { getContacts, deleteContact } from "./../services/contactService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUserCircle, faPhone } from "@fortawesome/free-solid-svg-icons";
-import api from "../API/fakeApi";
+import {
+  faUserCircle,
+  faPhone,
+  faTrash,
+} from "@fortawesome/free-solid-svg-icons";
 
 function Contacts() {
   const [contacts, setContacts] = useState(null);
 
   useEffect(() => {
-    api
-      .get("/contacts")
-      .then((res) => {
-        if (res.status !== 200) {
-          throw Error("Could not get list of contacts.");
-        }
-        setContacts(res.data);
-      })
-      .catch((err) => console.log(err.message));
+    async function setState() {
+      const { data: newContacts } = await getContacts();
+      setContacts(newContacts);
+    }
+    setState();
   }, []);
 
+  const handleDelete = async (id) => {
+    const oldContacts = contacts;
+    const newContacts = oldContacts.filter((c) => c.id !== id);
+    setContacts(newContacts);
+    try {
+      await deleteContact(id);
+    } catch (err) {
+      if (err.response && err.response.status === 404)
+        console.log("Contact has already been deleted.");
+
+      setContacts(oldContacts);
+    }
+  };
+
   if (contacts && contacts.length === 0)
-    return <p className="empty-list-warning">List of contacts is empty</p>;
+    return <p className="empty-list-warning">List of contacts is empty.</p>;
 
   return (
     <>
       {contacts && (
         <table className="table">
           <tbody>
-            {contacts.map((contact) => (
-              <tr key={contact.number}>
+            {contacts.map(({ id, firstName, lastName, number }) => (
+              <tr key={id}>
                 <td>
                   <FontAwesomeIcon icon={faUserCircle} size="2x" />
                 </td>
-                <td>{contact.name}</td>
-                <td>{contact.number}</td>
+                <td>{`${firstName} ${lastName}`}</td>
+                <td>{number}</td>
                 <td>
-                  <Link
-                    className="change-on-hover"
-                    to={`/calling/${contact.number}`}
-                    state={contact}
-                  >
+                  <Link className="change-on-hover" to={`/calling/${number}`}>
                     <FontAwesomeIcon icon={faPhone} />
                   </Link>
+                </td>
+                <td>
+                  <FontAwesomeIcon
+                    className="change-on-hover"
+                    icon={faTrash}
+                    onClick={() => handleDelete(id)}
+                  />
                 </td>
               </tr>
             ))}
