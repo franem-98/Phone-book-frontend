@@ -1,33 +1,56 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { addCallToHistory } from "../services/callService";
-import { getContacts } from "../services/contactService";
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhoneSlash } from "@fortawesome/free-solid-svg-icons";
-
-//FIX THIS!!!
+import { addCallToHistory } from "../services/callService";
+import { getContacts } from "../services/contactService";
+import Timer from "./Timer";
 
 function Calling() {
-  const [contact, setContact] = useState(null);
+  const { number } = useParams();
   const [seconds, setSeconds] = useState(0);
   const [callTimedOut, setCallTimedOut] = useState(false);
-  const { id } = useParams();
+  const [data, setData] = useState({
+    label: null,
+    number,
+    duration: "",
+    endTime: "",
+  });
   const navigate = useNavigate();
   const secondLimit = 35;
 
   useEffect(() => {
-    async function setState() {
+    async function onMount() {
       const { data: contacts } = await getContacts();
-      const existingContact = contacts.find((c) => c.number === id);
-      if (existingContact)
-        setContact(`${existingContact.firstName} ${existingContact.lastName}`);
-      else setContact(id);
+      const existingContact = contacts.find((c) => c.number === number);
+      if (existingContact) {
+        setData((data) => {
+          return {
+            ...data,
+            label: `${existingContact.firstName} ${existingContact.lastName}`,
+          };
+        });
+      } else {
+        setData((data) => {
+          return { ...data, label: number };
+        });
+      }
     }
-    setState();
-  }, [id]);
+
+    onMount();
+  }, [number]);
 
   useEffect(() => {
+    setData((data) => {
+      return {
+        ...data,
+        seconds,
+        duration: seconds,
+        endTime: moment().format("DD/MM/YYYY HH:mm").toString(),
+      };
+    });
+
     let timer = setInterval(() => {
       setSeconds(seconds + 1);
     }, 1000);
@@ -35,37 +58,29 @@ function Calling() {
     return () => {
       clearInterval(timer);
     };
-  }, [id, contact, seconds, callTimedOut]);
-
-  const call = {
-    contact,
-    duration: seconds,
-    endTime: moment().format("DD/MM/YYYY HH:mm").toString(),
-  };
+  }, [seconds, callTimedOut]);
 
   const handleTimeout = async () => {
-    await addCallToHistory(call);
+    await addCallToHistory(data);
     setTimeout(() => {
       navigate(-1);
     }, 4000);
   };
 
   const handleHangup = async () => {
-    await addCallToHistory(call);
+    await addCallToHistory(data);
     navigate(-1);
   };
 
   if (seconds === secondLimit) setCallTimedOut(true);
   if (callTimedOut) handleTimeout();
 
-  console.log(seconds);
-
   return (
     <div className="calling-page">
-      {contact && (
+      {data.label && (
         <>
-          <h1>Calling {contact}...</h1>
-          <h2>{seconds}</h2>
+          <h1>Calling {data.label}...</h1>
+          <Timer seconds={seconds} />
           {callTimedOut && (
             <p>Person is not answering. Please try again later.</p>
           )}

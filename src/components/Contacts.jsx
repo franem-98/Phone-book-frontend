@@ -6,6 +6,7 @@ import {
   faUserCircle,
   faPhone,
   faTrash,
+  faUserEdit,
 } from "@fortawesome/free-solid-svg-icons";
 
 function Contacts() {
@@ -48,6 +49,11 @@ function Contacts() {
                 </td>
                 <td>{`${firstName} ${lastName}`}</td>
                 <td>{number}</td>
+                <td>
+                  <Link className="change-on-hover" to={`/contacts/${id}`}>
+                    <FontAwesomeIcon icon={faUserEdit} />
+                  </Link>
+                </td>
                 <td>
                   <Link className="change-on-hover" to={`/calling/${number}`}>
                     <FontAwesomeIcon icon={faPhone} />

@@ -1,19 +1,12 @@
 {
   "contacts": [
     {
-      "firstName": "Frane",
-      "lastName": "Mišetić",
-      "number": "123456",
+      "firstName": "Danko",
+      "lastName": "Srbin",
+      "number": "1234567890",
       "id": 1
     }
   ],
-  "callhistory": [
-    {
-      "contact": "Frane Mišetić",
-      "duration": 3,
-      "endTime": "18/01/2022 22:28",
-      "id": 1
-    }
-  ],
+  "callhistory": [],
   "smshistory": []
 }

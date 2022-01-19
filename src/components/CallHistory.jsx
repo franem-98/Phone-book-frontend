@@ -40,19 +40,16 @@ function CallHistory() {
     <>
       <table className="table">
         <tbody>
-          {history.map(({ id, contact, duration, endTime }) => (
+          {history.map(({ id, label, number, duration, endTime }) => (
             <tr key={id}>
               <td>
                 <FontAwesomeIcon icon={faUserCircle} size="2x" />
               </td>
-              <td>{contact.name || contact}</td>
-              <td>{duration}</td>
+              <td>{label}</td>
+              <td>{duration}s</td>
               <td>{endTime}</td>
               <td>
-                <Link
-                  className="change-on-hover"
-                  to={`/calling/${contact.number || contact}`}
-                >
+                <Link className="change-on-hover" to={`/calling/${number}`}>
                   <FontAwesomeIcon icon={faPhone} />
                 </Link>
               </td>

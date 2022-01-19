@@ -4,9 +4,10 @@ import Contacts from "./components/Contacts";
 import CallHistory from "./components/CallHistory";
 import NewSms from "./components/NewSms";
 import SmsHistory from "./components/SmsHistory";
-import NewContact from "./components/NewContact";
+import ContactForm from "./components/ContactForm";
 import Calling from "./components/Calling";
 import Dial from "./components/Dial/Dial";
+import NotFound from "./common/NotFound";
 import "./App.css";
 
 function App() {
@@ -20,9 +21,10 @@ function App() {
           <Route path="/smshistory" element={<SmsHistory />} />
         </Route>
         <Route path="/newsms" element={<NewSms />} />
-        <Route path="/newcontact" element={<NewContact />} />
-        <Route path="/calling/:id" element={<Calling />} />
+        <Route path="/contacts/:id" element={<ContactForm />} />
+        <Route path="/calling/:number" element={<Calling />} />
         <Route path="/dial" element={<Dial />} />
+        <Route path="/notfound" element={<NotFound />} />
       </Routes>
     </main>
   );

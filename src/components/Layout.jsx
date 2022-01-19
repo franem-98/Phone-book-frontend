@@ -20,7 +20,7 @@ function Layout() {
         <Link to="/contacts">
           <FontAwesomeIcon icon={faAddressBook} />
         </Link>
-        <Link to="/newcontact">
+        <Link to="/contacts/new">
           <FontAwesomeIcon icon={faUserPlus} />
         </Link>
         <Link to="/callhistory">
