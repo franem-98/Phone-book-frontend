@@ -4,19 +4,24 @@ import Joi from "joi";
 import { saveContact, getContact } from "../services/contactService";
 
 function ContactForm() {
-  const [data, setData] = useState({ firstName: "", lastName: "", number: "" });
+  const [data, setData] = useState({
+    firstName: "",
+    lastName: "",
+    number: "",
+  });
   const [errors, setErrors] = useState({});
   const { id } = useParams();
   const navigate = useNavigate();
 
   const contactSchema = Joi.object({
     id: Joi.number(),
-    firstName: Joi.string().required().label("First name"),
-    lastName: Joi.string().required().label("Last name"),
+    firstName: Joi.string().required().min(1).label("First name"),
+    lastName: Joi.string().label("Last name"),
     number: Joi.string()
-      .length(10)
-      .pattern(/^[0-9]+$/)
       .required()
+      .min(9)
+      .max(10)
+      .pattern(/^[0-9]+$/)
       .label("Number"),
   });
 
@@ -86,7 +91,11 @@ function ContactForm() {
   };
 
   const doSubmit = async () => {
-    await saveContact(data);
+    const dataToSubmit = {
+      ...data,
+      label: `${data.firstName} ${data.lastName}`,
+    };
+    await saveContact(dataToSubmit);
 
     navigate("/contacts");
   };

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhoneSlash } from "@fortawesome/free-solid-svg-icons";
 import { addCallToHistory } from "../services/callService";
 import { getContacts } from "../services/contactService";
-import currentDateTime from "../services/currentDateTime";
+import getCurrentDateTime from "../services/currentDateTime";
 import Timer from "./Timer";
 
 function Calling() {
@@ -28,7 +28,7 @@ function Calling() {
         setData((data) => {
           return {
             ...data,
-            label: `${existingContact.firstName} ${existingContact.lastName}`,
+            label: existingContact.label,
           };
         });
       } else {
@@ -47,7 +47,7 @@ function Calling() {
         ...data,
         seconds,
         duration: seconds,
-        endTime: currentDateTime,
+        endTime: getCurrentDateTime(),
       };
     });
 

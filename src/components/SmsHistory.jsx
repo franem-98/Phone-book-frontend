@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { getMessages, deleteMessage } from "../services/smsService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function SmsHistory() {
   const [history, setHistory] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     async function setState() {
@@ -35,13 +37,17 @@ function SmsHistory() {
     <>
       <table className="table">
         <tbody>
-          {history.map(({ id, contact, message }) => (
+          {history.map(({ id, contactLabel, timestamp, message }) => (
             <tr key={id}>
               <td>
                 <FontAwesomeIcon icon={faUserCircle} size="2x" />
               </td>
-              <td>{contact}</td>
-              <td className="message-container">
+              <td>{contactLabel}</td>
+              <td>{timestamp}</td>
+              <td
+                className="message-container"
+                onClick={() => navigate(`/smshistory/${id}`)}
+              >
                 {message.length > 40
                   ? `${message.substring(0, 40)}...`
                   : message}

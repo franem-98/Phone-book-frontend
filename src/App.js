@@ -7,6 +7,7 @@ import SmsHistory from "./components/SmsHistory";
 import ContactForm from "./components/ContactForm";
 import Calling from "./components/Calling";
 import Dial from "./components/Dial/Dial";
+import Sms from "./components/Sms";
 import NotFound from "./common/NotFound";
 import "./App.css";
 
@@ -19,6 +20,7 @@ function App() {
           <Route path="/contacts" element={<Contacts />} />
           <Route path="/callhistory" element={<CallHistory />} />
           <Route path="/smshistory" element={<SmsHistory />} />
+          <Route path="/smshistory/:id" element={<Sms />} />
         </Route>
         <Route path="/newsms" element={<NewSms />} />
         <Route path="/contacts/:id" element={<ContactForm />} />

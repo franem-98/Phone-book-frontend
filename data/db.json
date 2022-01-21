@@ -1,12 +1,28 @@
 {
   "contacts": [
     {
-      "firstName": "Danko",
-      "lastName": "Srbin",
-      "number": "1234567890",
-      "id": 1
+      "firstName": "Frane",
+      "lastName": "Mišetić",
+      "number": "0917269296",
+      "label": "Frane Mišetić",
+      "id": 2
     }
   ],
   "callhistory": [],
-  "smshistory": []
+  "smshistory": [
+    {
+      "number": "0917269296",
+      "message": "Blablablaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "contactLabel": "Frane Mišetić",
+      "timestamp": "21/01/2022 16:45",
+      "id": 1
+    },
+    {
+      "number": "123456789",
+      "message": "edrtfghjkfghbjnmgfhdejnkeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
+      "contactLabel": "123456789",
+      "timestamp": "21/01/2022 16:57",
+      "id": 2
+    }
+  ]
 }

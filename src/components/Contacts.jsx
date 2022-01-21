@@ -42,12 +42,12 @@ function Contacts() {
       {contacts && (
         <table className="table">
           <tbody>
-            {contacts.map(({ id, firstName, lastName, number }) => (
+            {contacts.map(({ id, label, number }) => (
               <tr key={id}>
                 <td>
                   <FontAwesomeIcon icon={faUserCircle} size="2x" />
                 </td>
-                <td>{`${firstName} ${lastName}`}</td>
+                <td>{label}</td>
                 <td>{number}</td>
                 <td>
                   <Link className="change-on-hover" to={`/contacts/${id}`}>
