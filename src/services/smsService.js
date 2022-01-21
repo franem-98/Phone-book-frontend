@@ -4,6 +4,10 @@ export function getMessages() {
   return http.get("/smshistory");
 }
 
+export function getMessage(id) {
+  return http.get(`/smshistory/${id}`);
+}
+
 export function sendMessage(message) {
   return http.post("/smshistory", message);
 }

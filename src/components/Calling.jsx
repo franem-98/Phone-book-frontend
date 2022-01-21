@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhoneSlash } from "@fortawesome/free-solid-svg-icons";
 import { addCallToHistory } from "../services/callService";
 import { getContacts } from "../services/contactService";
+import currentDateTime from "../services/currentDateTime";
 import Timer from "./Timer";
 
 function Calling() {
@@ -47,7 +47,7 @@ function Calling() {
         ...data,
         seconds,
         duration: seconds,
-        endTime: moment().format("DD/MM/YYYY HH:mm").toString(),
+        endTime: currentDateTime,
       };
     });
 
