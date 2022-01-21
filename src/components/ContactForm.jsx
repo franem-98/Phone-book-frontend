@@ -1,7 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import Joi from "joi";
-import { saveContact, getContact } from "../services/contactService";
+import {
+  saveContact,
+  getContact,
+  getContacts,
+} from "../services/contactService";
 
 function ContactForm() {
   const [data, setData] = useState({
@@ -10,6 +14,7 @@ function ContactForm() {
     number: "",
   });
   const [errors, setErrors] = useState({});
+  const [contacts, setContacts] = useState([]);
   const { id } = useParams();
   const navigate = useNavigate();
 
@@ -25,7 +30,29 @@ function ContactForm() {
       .label("Number"),
   });
 
+  const numberAlreadyExists = () => {
+    const existingContact = contacts.find((c) => c.number === data.number);
+    return existingContact;
+  };
+
+  const nameAlreadyExists = () => {
+    const sameName = contacts.find(
+      ({ firstName, lastName }) =>
+        firstName === data.firstName && lastName === data.lastName
+    );
+    return sameName;
+  };
+
   const validate = () => {
+    if (numberAlreadyExists())
+      return { number: "Contact with this number already exists." };
+
+    if (nameAlreadyExists())
+      return {
+        namingError:
+          "The first name and last name combination you entered already exists.",
+      };
+
     const { error } = contactSchema.validate(data, { abortEarly: false });
     if (!error) return null;
 
@@ -46,6 +73,8 @@ function ContactForm() {
 
   useEffect(() => {
     const onMount = async () => {
+      const { data: myContacts } = await getContacts();
+      setContacts(myContacts);
       try {
         const contactId = id;
         if (contactId === "new") return;

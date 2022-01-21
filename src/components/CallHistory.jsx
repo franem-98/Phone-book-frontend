@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getCallHistory, deleteCall } from "../services/callService";
+import { getContacts } from "./../services/contactService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserCircle,
@@ -10,13 +11,16 @@ import {
 
 function CallHistory() {
   const [history, setHistory] = useState([]);
+  const [contacts, setContacts] = useState([]);
 
   useEffect(() => {
-    async function setState() {
+    async function onMount() {
       const { data: newHistory } = await getCallHistory();
+      const { data: myContacts } = await getContacts();
       setHistory(newHistory.reverse());
+      setContacts(myContacts);
     }
-    setState();
+    onMount();
   }, []);
 
   const handleDelete = async (id) => {
@@ -33,6 +37,13 @@ function CallHistory() {
     }
   };
 
+  const getLabel = (number) => {
+    const existingContact = contacts.find((c) => c.number === number);
+    return existingContact
+      ? `${existingContact.firstName} ${existingContact.lastName}`
+      : number;
+  };
+
   if (history && history.length === 0)
     return <p className="empty-list-warning">Call history is empty.</p>;
 
@@ -40,12 +51,12 @@ function CallHistory() {
     <>
       <table className="table">
         <tbody>
-          {history.map(({ id, label, number, duration, endTime }) => (
+          {history.map(({ id, number, duration, endTime }) => (
             <tr key={id}>
               <td>
                 <FontAwesomeIcon icon={faUserCircle} size="2x" />
               </td>
-              <td>{label}</td>
+              <td>{getLabel(number)}</td>
               <td>{duration}s</td>
               <td>{endTime}</td>
               <td>

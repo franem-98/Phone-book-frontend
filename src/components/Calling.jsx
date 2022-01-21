@@ -11,8 +11,8 @@ function Calling() {
   const { number } = useParams();
   const [seconds, setSeconds] = useState(0);
   const [callTimedOut, setCallTimedOut] = useState(false);
+  const [label, setLabel] = useState(number);
   const [data, setData] = useState({
-    label: null,
     number,
     duration: "",
     endTime: "",
@@ -25,16 +25,7 @@ function Calling() {
       const { data: contacts } = await getContacts();
       const existingContact = contacts.find((c) => c.number === number);
       if (existingContact) {
-        setData((data) => {
-          return {
-            ...data,
-            label: existingContact.label,
-          };
-        });
-      } else {
-        setData((data) => {
-          return { ...data, label: number };
-        });
+        setLabel(`${existingContact.firstName} ${existingContact.lastName}`);
       }
     }
 
@@ -45,7 +36,6 @@ function Calling() {
     setData((data) => {
       return {
         ...data,
-        seconds,
         duration: seconds,
         endTime: getCurrentDateTime(),
       };
@@ -77,9 +67,9 @@ function Calling() {
 
   return (
     <div className="calling-page">
-      {data.label && (
+      {label && (
         <>
-          <h1>Calling {data.label}...</h1>
+          <h1>Calling {label}...</h1>
           <Timer seconds={seconds} />
           {callTimedOut && (
             <p>Person is not answering. Please try again later.</p>
