@@ -9,11 +9,11 @@ function SmsHistory() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function setState() {
+    async function onMount() {
       const { data: newHistory } = await getMessages();
       setHistory(newHistory.reverse());
     }
-    setState();
+    onMount();
   }, []);
 
   const handleDelete = async (id) => {

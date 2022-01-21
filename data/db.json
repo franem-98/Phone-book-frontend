@@ -6,23 +6,31 @@
       "number": "0917269296",
       "label": "Frane Mišetić",
       "id": 2
-    }
-  ],
-  "callhistory": [],
-  "smshistory": [
-    {
-      "number": "0917269296",
-      "message": "Blablablaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
-      "contactLabel": "Frane Mišetić",
-      "timestamp": "21/01/2022 16:45",
-      "id": 1
     },
     {
-      "number": "123456789",
-      "message": "edrtfghjkfghbjnmgfhdejnkeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee",
-      "contactLabel": "123456789",
-      "timestamp": "21/01/2022 16:57",
-      "id": 2
+      "firstName": "Danko",
+      "lastName": "Srbin",
+      "number": "1234567890",
+      "label": "Danko Srbin",
+      "id": 3
+    },
+    {
+      "firstName": "Ivan",
+      "lastName": "Rajčić",
+      "number": "1234567890",
+      "label": "Ivan Rajčić",
+      "id": 4
     }
-  ]
+  ],
+  "callhistory": [
+    {
+      "label": "Frane Mišetić",
+      "number": "0917269296",
+      "duration": 2,
+      "endTime": "21/01/2022 17:21",
+      "seconds": 2,
+      "id": 1
+    }
+  ],
+  "smshistory": []
 }

@@ -12,17 +12,27 @@ import {
 function Contacts() {
   const [contacts, setContacts] = useState(null);
 
+  const sortByFirstName = (contacts) => {
+    return contacts.sort((a, b) => {
+      if (a.firstName < b.firstName) return -1;
+      if (a.firstName > b.firstName) return 1;
+      return 0;
+    });
+  };
+
   useEffect(() => {
-    async function setState() {
-      const { data: newContacts } = await getContacts();
+    async function onMount() {
+      let { data: newContacts } = await getContacts();
+      newContacts = sortByFirstName(newContacts);
       setContacts(newContacts);
     }
-    setState();
+    onMount();
   }, []);
 
   const handleDelete = async (id) => {
     const oldContacts = contacts;
-    const newContacts = oldContacts.filter((c) => c.id !== id);
+    let newContacts = oldContacts.filter((c) => c.id !== id);
+    newContacts = sortByFirstName(newContacts);
     setContacts(newContacts);
     try {
       await deleteContact(id);

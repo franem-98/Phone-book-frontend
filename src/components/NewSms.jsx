@@ -51,7 +51,7 @@ function NewSms() {
     };
 
     onMount();
-  }, [contacts]);
+  }, []);
 
   const handleChange = ({ currentTarget: input }) => {
     const newErrors = { ...errors };
