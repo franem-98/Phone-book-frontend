@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { sendMessage } from "../services/smsService";
+import currentDateTime from "./../services/currentDateTime";
 
 function NewSms() {
   const [data, setData] = useState({ contact: "", message: "" });
@@ -15,8 +16,9 @@ function NewSms() {
   const doSubmit = async (e) => {
     e.preventDefault();
     await sendMessage({
-      contact: `${data.contact}`,
-      message: `${data.message}`,
+      contact: data.contact,
+      message: data.message,
+      dateTimeSent: currentDateTime,
     });
 
     navigate("/smshistory");
