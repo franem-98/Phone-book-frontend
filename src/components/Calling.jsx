@@ -25,7 +25,9 @@ function Calling() {
       const { data: contacts } = await getContacts();
       const existingContact = contacts.find((c) => c.number === number);
       if (existingContact) {
-        setLabel(`${existingContact.firstName} ${existingContact.lastName}`);
+        existingContact.lastName
+          ? setLabel(`${existingContact.firstName} ${existingContact.lastName}`)
+          : setLabel(`${existingContact.firstName}`);
       }
     }
 

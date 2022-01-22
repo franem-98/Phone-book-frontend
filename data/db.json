@@ -1,5 +1,12 @@
 {
   "contacts": [],
-  "callhistory": [],
+  "callhistory": [
+    {
+      "number": "0917269296",
+      "duration": 2,
+      "endTime": "22/01/2022 19:44",
+      "id": 1
+    }
+  ],
   "smshistory": []
 }
