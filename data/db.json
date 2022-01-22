@@ -1,14 +1,5 @@
 {
   "contacts": [],
-  "callhistory": [
-    {
-      "label": "Frane Mišetić",
-      "number": "0917269296",
-      "duration": 2,
-      "endTime": "21/01/2022 17:21",
-      "seconds": 2,
-      "id": 1
-    }
-  ],
+  "callhistory": [],
   "smshistory": []
 }

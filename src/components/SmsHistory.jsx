@@ -1,17 +1,21 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { getContacts } from "../services/contactService";
 import { getMessages, deleteMessage } from "../services/smsService";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faUserCircle, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 function SmsHistory() {
   const [history, setHistory] = useState([]);
+  const [contacts, setContacts] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     async function onMount() {
       const { data: newHistory } = await getMessages();
+      const { data: myContacts } = await getContacts();
       setHistory(newHistory.reverse());
+      setContacts(myContacts);
     }
     onMount();
   }, []);
@@ -30,6 +34,13 @@ function SmsHistory() {
     }
   };
 
+  const getLabel = (number) => {
+    const existingContact = contacts.find((c) => c.number === number);
+    return existingContact
+      ? `${existingContact.firstName} ${existingContact.lastName}`
+      : number;
+  };
+
   if (history && history.length === 0)
     return <p className="empty-list-warning">SMS history is empty.</p>;
 
@@ -37,12 +48,12 @@ function SmsHistory() {
     <>
       <table className="table">
         <tbody>
-          {history.map(({ id, contactLabel, timestamp, message }) => (
+          {history.map(({ id, number, timestamp, message }) => (
             <tr key={id}>
               <td>
                 <FontAwesomeIcon icon={faUserCircle} size="2x" />
               </td>
-              <td>{contactLabel}</td>
+              <td>{getLabel(number)}</td>
               <td>{timestamp}</td>
               <td
                 className="message-container"

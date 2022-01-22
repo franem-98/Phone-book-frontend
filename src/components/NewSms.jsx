@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Joi from "joi";
 import { sendMessage } from "../services/smsService";
-import { getContacts } from "../services/contactService";
 import getCurrentDateTime from "./../services/currentDateTime";
+import Input from "../common/Input";
+import TextArea from "./../common/TextArea";
+import Button from "../common/Button";
 
 function NewSms() {
   const [data, setData] = useState({
     number: "",
     message: "",
   });
-  const [contacts, setContacts] = useState([]);
   const [errors, setErrors] = useState({});
   const navigate = useNavigate();
 
@@ -44,15 +45,6 @@ function NewSms() {
     return error ? error.details[0].message : null;
   };
 
-  useEffect(() => {
-    const onMount = async () => {
-      const { data: myContacts } = await getContacts();
-      setContacts(myContacts);
-    };
-
-    onMount();
-  }, []);
-
   const handleChange = ({ currentTarget: input }) => {
     const newErrors = { ...errors };
     const errorMessage = validateProperty(input);
@@ -76,10 +68,8 @@ function NewSms() {
 
   const doSubmit = async (e) => {
     const timestamp = getCurrentDateTime();
-    const existingContact = contacts.find((c) => c.number === data.number);
-    const contactLabel = existingContact ? existingContact.label : data.number;
 
-    const dataToSubmit = { ...data, contactLabel, timestamp };
+    const dataToSubmit = { ...data, timestamp };
     await sendMessage(dataToSubmit);
 
     navigate("/smshistory");
@@ -89,29 +79,22 @@ function NewSms() {
     <>
       <h2 className="page-top">Text message</h2>
       <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <input
-            type="text"
-            className="form-control"
-            name="number"
-            value={data.contact}
-            onChange={handleChange}
-            autoFocus
-            placeholder="Enter number"
-          />
-        </div>
-        <div className="mb-3">
-          <textarea
-            className="message-input"
-            name="message"
-            value={data.message}
-            onChange={handleChange}
-            placeholder="Enter message..."
-          />
-        </div>
-        <button disabled={validate()} type="submit" className="btn btn-primary">
-          Send
-        </button>
+        <Input
+          type="text"
+          name="number"
+          value={data.number}
+          onChange={handleChange}
+          placeholder="Enter number"
+          error={errors.number}
+        />
+        <TextArea
+          name="message"
+          value={data.message}
+          onChange={handleChange}
+          placeholder="Enter message..."
+          error={errors.message}
+        />
+        <Button disabled={validate()} type="submit" label="Send" />
       </form>
     </>
   );

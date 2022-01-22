@@ -6,6 +6,8 @@ import {
   getContact,
   getContacts,
 } from "../services/contactService";
+import Input from "../common/Input";
+import Button from "./../common/Button";
 
 function ContactForm() {
   const [data, setData] = useState({
@@ -21,7 +23,7 @@ function ContactForm() {
   const contactSchema = Joi.object({
     id: Joi.number(),
     firstName: Joi.string().required().min(1).label("First name"),
-    lastName: Joi.string().label("Last name"),
+    lastName: Joi.string().allow("").label("Last name"),
     number: Joi.string()
       .required()
       .min(9)
@@ -29,47 +31,6 @@ function ContactForm() {
       .pattern(/^[0-9]+$/)
       .label("Number"),
   });
-
-  const numberAlreadyExists = () => {
-    const existingContact = contacts.find((c) => c.number === data.number);
-    return existingContact;
-  };
-
-  const nameAlreadyExists = () => {
-    const sameName = contacts.find(
-      ({ firstName, lastName }) =>
-        firstName === data.firstName && lastName === data.lastName
-    );
-    return sameName;
-  };
-
-  const validate = () => {
-    if (numberAlreadyExists())
-      return { number: "Contact with this number already exists." };
-
-    if (nameAlreadyExists())
-      return {
-        namingError:
-          "The first name and last name combination you entered already exists.",
-      };
-
-    const { error } = contactSchema.validate(data, { abortEarly: false });
-    if (!error) return null;
-
-    const newErrors = {};
-    for (let item of error.details) newErrors[item.path[0]] = item.message;
-
-    return newErrors;
-  };
-
-  const validateProperty = ({ name, value }) => {
-    const propertySchema = Joi.object({
-      [name]: contactSchema.extract([name]),
-    });
-    const property = { [name]: value };
-    const { error } = propertySchema.validate(property);
-    return error ? error.details[0].message : null;
-  };
 
   useEffect(() => {
     const onMount = async () => {
@@ -88,6 +49,39 @@ function ContactForm() {
 
     onMount();
   }, [id, navigate]);
+
+  const numberAlreadyExists = (number) => {
+    const existingContact = contacts.find((c) => c.number === number);
+    return existingContact;
+  };
+
+  const validate = () => {
+    if (numberAlreadyExists(data.number)) {
+      return { number: "A contact with this number already exists." };
+    }
+
+    const { error } = contactSchema.validate(data, { abortEarly: false });
+    if (!error) return null;
+
+    const newErrors = {};
+    for (let item of error.details) newErrors[item.path[0]] = item.message;
+
+    return newErrors;
+  };
+
+  const validateProperty = ({ name, value }) => {
+    const propertySchema = Joi.object({
+      [name]: contactSchema.extract([name]),
+    });
+
+    if (name === "number" && numberAlreadyExists(value)) {
+      return "A contact with this number already exists.";
+    }
+
+    const property = { [name]: value };
+    const { error } = propertySchema.validate(property);
+    return error ? error.details[0].message : null;
+  };
 
   const mapToForm = ({ id, firstName, lastName, number }) => {
     return {
@@ -120,14 +114,12 @@ function ContactForm() {
   };
 
   const doSubmit = async () => {
-    const dataToSubmit = {
-      ...data,
-      label: `${data.firstName} ${data.lastName}`,
-    };
-    await saveContact(dataToSubmit);
+    await saveContact(data);
 
     navigate("/contacts");
   };
+
+  const { firstName, lastName, number } = data;
 
   return (
     <>
@@ -135,39 +127,35 @@ function ContactForm() {
       <form onSubmit={handleSubmit}>
         <div className="mb-3">
           <label className="form-label">First name</label>
-          <input
+          <Input
             type="text"
             name="firstName"
-            value={data.firstName}
+            value={firstName}
             onChange={handleChange}
-            className="form-control"
-            autoFocus
+            error={errors.firstName}
           />
         </div>
         <div className="mb-3">
           <label className="form-label">Last name</label>
-          <input
+          <Input
             type="text"
             name="lastName"
-            value={data.lastName}
+            value={lastName}
             onChange={handleChange}
-            className="form-control"
-            autoFocus
+            error={errors.lastName}
           />
         </div>
         <div className="mb-3">
           <label className="form-label">Number</label>
-          <input
+          <Input
             type="text"
             name="number"
-            value={data.number}
+            value={number}
             onChange={handleChange}
-            className="form-control"
+            error={errors.number}
           />
         </div>
-        <button disabled={validate()} type="submit" className="btn btn-primary">
-          Add
-        </button>
+        <Button disabled={validate()} type="submit" label="Add" />
       </form>
     </>
   );
