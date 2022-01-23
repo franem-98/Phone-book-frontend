@@ -26,7 +26,7 @@ function App() {
         <Route path="/contacts/:id" element={<ContactForm />} />
         <Route path="/calling/:number" element={<Calling />} />
         <Route path="/dial" element={<Dial />} />
-        <Route path="/notfound" element={<NotFound />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </main>
   );
