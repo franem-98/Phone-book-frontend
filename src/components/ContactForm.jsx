@@ -28,7 +28,7 @@ function ContactForm() {
       .max(50)
       .trim()
       .label("First name"),
-    lastName: Joi.string().allow("").trim().label("Last name"),
+    lastName: Joi.string().allow("").max(50).trim().label("Last name"),
     number: Joi.string()
       .required()
       .min(9)
