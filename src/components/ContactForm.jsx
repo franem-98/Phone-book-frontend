@@ -22,13 +22,19 @@ function ContactForm() {
 
   const contactSchema = Joi.object({
     id: Joi.number(),
-    firstName: Joi.string().required().min(1).label("First name"),
-    lastName: Joi.string().allow("").label("Last name"),
+    firstName: Joi.string()
+      .required()
+      .min(1)
+      .max(50)
+      .trim()
+      .label("First name"),
+    lastName: Joi.string().allow("").trim().label("Last name"),
     number: Joi.string()
       .required()
       .min(9)
       .max(10)
       .pattern(/^[0-9]+$/)
+      .trim()
       .label("Number"),
   });
 
