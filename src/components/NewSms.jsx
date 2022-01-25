@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Joi from "joi";
 import { sendMessage } from "../services/smsService";
-import getCurrentDateTime from "./../services/currentDateTime";
 import Input from "../common/Input";
 import TextArea from "./../common/TextArea";
 import Button from "../common/Button";
@@ -67,7 +66,7 @@ function NewSms() {
   };
 
   const doSubmit = async (e) => {
-    const timestamp = getCurrentDateTime();
+    const timestamp = new Date().toISOString();
 
     const dataToSubmit = { ...data, timestamp };
     await sendMessage(dataToSubmit);

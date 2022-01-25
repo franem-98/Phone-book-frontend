@@ -4,7 +4,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPhoneSlash } from "@fortawesome/free-solid-svg-icons";
 import { addCallToHistory } from "../services/callService";
 import { getContacts } from "../services/contactService";
-import getCurrentDateTime from "../services/currentDateTime";
 import Timer from "./Timer";
 
 function Calling() {
@@ -39,7 +38,7 @@ function Calling() {
       return {
         ...data,
         duration: seconds,
-        endTime: getCurrentDateTime(),
+        endTime: new Date().toISOString(),
       };
     });
 
