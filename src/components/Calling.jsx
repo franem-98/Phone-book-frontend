@@ -10,12 +10,7 @@ function Calling() {
   const { number } = useParams();
   const [seconds, setSeconds] = useState(0);
   const [callTimedOut, setCallTimedOut] = useState(false);
-  const [label, setLabel] = useState(number);
-  const [data, setData] = useState({
-    number,
-    duration: "",
-    endTime: "",
-  });
+  const [label, setLabel] = useState(null);
   const navigate = useNavigate();
   const secondLimit = 35;
 
@@ -24,24 +19,16 @@ function Calling() {
       const { data: contacts } = await getContacts();
       const existingContact = contacts.find((c) => c.number === number);
       if (existingContact) {
-        existingContact.lastName
-          ? setLabel(`${existingContact.firstName} ${existingContact.lastName}`)
-          : setLabel(`${existingContact.firstName}`);
-      }
+        setLabel(
+          `${existingContact.firstName} ${existingContact.lastName}`.trim()
+        );
+      } else setLabel(number);
     }
 
     onMount();
   }, [number]);
 
   useEffect(() => {
-    setData((data) => {
-      return {
-        ...data,
-        duration: seconds,
-        endTime: new Date().toISOString(),
-      };
-    });
-
     let timer = setInterval(() => {
       setSeconds(seconds + 1);
     }, 1000);
@@ -52,15 +39,23 @@ function Calling() {
   }, [seconds, callTimedOut]);
 
   const handleTimeout = async () => {
-    await addCallToHistory(data);
+    await addCallToHistory(getData());
     setTimeout(() => {
       navigate(-1);
     }, 4000);
   };
 
   const handleHangup = async () => {
-    await addCallToHistory(data);
+    await addCallToHistory(getData());
     navigate(-1);
+  };
+
+  const getData = () => {
+    return {
+      number,
+      duration: seconds,
+      endTime: new Date().toISOString(),
+    };
   };
 
   if (seconds === secondLimit) setCallTimedOut(true);

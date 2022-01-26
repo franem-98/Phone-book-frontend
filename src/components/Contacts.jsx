@@ -31,7 +31,7 @@ function Contacts() {
 
   const handleDelete = async (id) => {
     const oldContacts = contacts;
-    let newContacts = oldContacts.filter((c) => c.id !== id);
+    let newContacts = oldContacts.filter((c) => c._id !== id);
     newContacts = sortByFirstName(newContacts);
     setContacts(newContacts);
     try {
@@ -52,15 +52,15 @@ function Contacts() {
       {contacts && (
         <table className="table">
           <tbody>
-            {contacts.map(({ id, firstName, lastName, number }) => (
-              <tr key={id}>
+            {contacts.map(({ _id, firstName, lastName, number }) => (
+              <tr key={_id}>
                 <td>
                   <FontAwesomeIcon icon={faUserCircle} size="2x" />
                 </td>
-                <td>{`${firstName} ${lastName}`}</td>
+                <td>{`${firstName} ${lastName}`.trim()}</td>
                 <td>{number}</td>
                 <td>
-                  <Link className="change-on-hover" to={`/contacts/${id}`}>
+                  <Link className="change-on-hover" to={`/contacts/${_id}`}>
                     <FontAwesomeIcon icon={faUserEdit} />
                   </Link>
                 </td>
@@ -73,7 +73,7 @@ function Contacts() {
                   <FontAwesomeIcon
                     className="change-on-hover"
                     icon={faTrash}
-                    onClick={() => handleDelete(id)}
+                    onClick={() => handleDelete(_id)}
                   />
                 </td>
               </tr>

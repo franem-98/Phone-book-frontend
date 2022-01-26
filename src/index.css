@@ -67,6 +67,10 @@ body {
   cursor: pointer;
 }
 
+.char-counter {
+  color: rgba(0, 0, 0, 0.7);
+}
+
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;

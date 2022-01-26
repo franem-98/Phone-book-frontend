@@ -22,7 +22,7 @@ function SmsHistory() {
 
   const handleDelete = async (id) => {
     const oldSmsHistory = history;
-    const newSmsHistory = oldSmsHistory.filter((c) => c.id !== id);
+    const newSmsHistory = oldSmsHistory.filter((c) => c._id !== id);
     setHistory(newSmsHistory);
     try {
       await deleteMessage(id);
@@ -37,7 +37,7 @@ function SmsHistory() {
   const getLabel = (number) => {
     const existingContact = contacts.find((c) => c.number === number);
     return existingContact
-      ? `${existingContact.firstName} ${existingContact.lastName}`
+      ? `${existingContact.firstName} ${existingContact.lastName}`.trim()
       : number;
   };
 
@@ -48,8 +48,8 @@ function SmsHistory() {
     <>
       <table className="table">
         <tbody>
-          {history.map(({ id, number, timestamp, message }) => (
-            <tr key={id}>
+          {history.map(({ _id, number, timestamp, message }) => (
+            <tr key={_id}>
               <td>
                 <FontAwesomeIcon icon={faUserCircle} size="2x" />
               </td>
@@ -57,7 +57,7 @@ function SmsHistory() {
               <td>{timestamp}</td>
               <td
                 className="message-container"
-                onClick={() => navigate(`/smshistory/${id}`)}
+                onClick={() => navigate(`/smshistory/${_id}`)}
               >
                 {message.length > 40
                   ? `${message.substring(0, 40)}...`
@@ -67,7 +67,7 @@ function SmsHistory() {
                 <FontAwesomeIcon
                   className="change-on-hover"
                   icon={faTrash}
-                  onClick={() => handleDelete(id)}
+                  onClick={() => handleDelete(_id)}
                 />
               </td>
             </tr>

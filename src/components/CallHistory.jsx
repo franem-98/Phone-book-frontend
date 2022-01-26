@@ -25,7 +25,7 @@ function CallHistory() {
 
   const handleDelete = async (id) => {
     const oldCallHistory = history;
-    const newCallHistory = oldCallHistory.filter((c) => c.id !== id);
+    const newCallHistory = oldCallHistory.filter((c) => c._id !== id);
     setHistory(newCallHistory);
     try {
       await deleteCall(id);
@@ -51,8 +51,8 @@ function CallHistory() {
     <>
       <table className="table">
         <tbody>
-          {history.map(({ id, number, duration, endTime }) => (
-            <tr key={id}>
+          {history.map(({ _id, number, duration, endTime }) => (
+            <tr key={_id}>
               <td>
                 <FontAwesomeIcon icon={faUserCircle} size="2x" />
               </td>
@@ -68,7 +68,7 @@ function CallHistory() {
                 <FontAwesomeIcon
                   className="change-on-hover"
                   icon={faTrash}
-                  onClick={() => handleDelete(id)}
+                  onClick={() => handleDelete(_id)}
                 />
               </td>
             </tr>
