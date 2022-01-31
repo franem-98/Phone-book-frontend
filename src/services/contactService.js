@@ -13,10 +13,10 @@ export function deleteContact(id) {
 }
 
 export function saveContact(contact) {
-  if (contact.id) {
+  if (contact._id) {
     const body = { ...contact };
-    delete body.id;
-    return http.put(`/contacts/${contact.id}`, body);
+    delete body._id;
+    return http.patch(`/contacts/${contact._id}`, body);
   }
   return http.post("/contacts", contact);
 }

@@ -40,7 +40,7 @@ function CallHistory() {
   const getLabel = (number) => {
     const existingContact = contacts.find((c) => c.number === number);
     return existingContact
-      ? `${existingContact.firstName} ${existingContact.lastName}`
+      ? `${existingContact.firstName} ${existingContact.lastName}`.trim()
       : number;
   };
 

@@ -7,7 +7,7 @@ const api = axios.create({
 const http = {
   get: api.get,
   post: api.post,
-  put: api.put,
+  patch: api.patch,
   delete: api.delete,
 };
 

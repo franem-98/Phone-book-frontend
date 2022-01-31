@@ -21,7 +21,7 @@ function ContactForm() {
   const navigate = useNavigate();
 
   const contactSchema = Joi.object({
-    id: Joi.number(),
+    _id: Joi.string(),
     firstName: Joi.string()
       .required()
       .min(1)
@@ -31,7 +31,7 @@ function ContactForm() {
     lastName: Joi.string().allow("").max(50).trim().label("Last name"),
     number: Joi.string()
       .required()
-      .min(9)
+      .min(3)
       .max(10)
       .pattern(/^[0-9]+$/)
       .trim()
@@ -89,9 +89,9 @@ function ContactForm() {
     return error ? error.details[0].message : null;
   };
 
-  const mapToForm = ({ id, firstName, lastName, number }) => {
+  const mapToForm = ({ _id, firstName, lastName, number }) => {
     return {
-      id,
+      _id,
       firstName,
       lastName,
       number,
