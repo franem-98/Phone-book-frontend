@@ -9,7 +9,6 @@ import Timer from "./Timer";
 function Calling() {
   const { number } = useParams();
   const [seconds, setSeconds] = useState(0);
-  const [callTimedOut, setCallTimedOut] = useState(false);
   const [label, setLabel] = useState(null);
   const navigate = useNavigate();
   const secondLimit = 35;
@@ -36,18 +35,18 @@ function Calling() {
     return () => {
       clearInterval(timer);
     };
-  }, [seconds, callTimedOut]);
+  }, [seconds]);
 
   const handleTimeout = async () => {
     await addCallToHistory(getData());
     setTimeout(() => {
-      navigate(-1);
+      navigate("/callhistory");
     }, 4000);
   };
 
   const handleHangup = async () => {
     await addCallToHistory(getData());
-    navigate(-1);
+    navigate("/callhistory");
   };
 
   const getData = () => {
@@ -58,8 +57,7 @@ function Calling() {
     };
   };
 
-  if (seconds === secondLimit) setCallTimedOut(true);
-  if (callTimedOut) handleTimeout();
+  if (seconds === secondLimit) handleTimeout();
 
   return (
     <div className="calling-page">
@@ -67,7 +65,7 @@ function Calling() {
         <>
           <h1>Calling {label}...</h1>
           <Timer seconds={seconds} />
-          {callTimedOut && (
+          {seconds === secondLimit && (
             <p>Person is not answering. Please try again later.</p>
           )}
           <FontAwesomeIcon
