@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { getContacts, deleteContact } from "./../services/contactService";
+import SearchBox from "../common/SearchBox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faUserCircle,
@@ -11,6 +12,7 @@ import {
 
 function Contacts() {
   const [contacts, setContacts] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const sortByFirstName = (contacts) => {
     return contacts.sort((a, b) => {
@@ -44,42 +46,60 @@ function Contacts() {
     }
   };
 
+  const getSearchedData = () => {
+    let filtered = contacts;
+    if (searchQuery) {
+      filtered = contacts.filter(({ firstName, lastName }) =>
+        `${firstName} ${lastName}`
+          .toLowerCase()
+          .startsWith(searchQuery.toLowerCase())
+      );
+    }
+    return filtered;
+  };
+
   if (contacts && contacts.length === 0)
     return <p className="empty-list-warning">List of contacts is empty.</p>;
 
   return (
     <>
       {contacts && (
-        <table className="table">
-          <tbody>
-            {contacts.map(({ _id, firstName, lastName, number }) => (
-              <tr key={_id}>
-                <td>
-                  <FontAwesomeIcon icon={faUserCircle} size="2x" />
-                </td>
-                <td>{`${firstName} ${lastName}`.trim()}</td>
-                <td>{number}</td>
-                <td>
-                  <Link className="change-on-hover" to={`/contacts/${_id}`}>
-                    <FontAwesomeIcon icon={faUserEdit} />
-                  </Link>
-                </td>
-                <td>
-                  <Link className="change-on-hover" to={`/calling/${number}`}>
-                    <FontAwesomeIcon icon={faPhone} />
-                  </Link>
-                </td>
-                <td>
-                  <FontAwesomeIcon
-                    className="change-on-hover"
-                    icon={faTrash}
-                    onClick={() => handleDelete(_id)}
-                  />
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <>
+          <SearchBox value={searchQuery} onChange={setSearchQuery} />
+          {searchQuery && getSearchedData().length === 0 && (
+            <p className="empty-list-warning">No results.</p>
+          )}
+          <table className="table">
+            <tbody>
+              {getSearchedData().map(({ _id, firstName, lastName, number }) => (
+                <tr key={_id}>
+                  <td>
+                    <FontAwesomeIcon icon={faUserCircle} size="2x" />
+                  </td>
+                  <td>{`${firstName} ${lastName}`.trim()}</td>
+                  <td>{number}</td>
+                  <td>
+                    <Link className="change-on-hover" to={`/contacts/${_id}`}>
+                      <FontAwesomeIcon icon={faUserEdit} />
+                    </Link>
+                  </td>
+                  <td>
+                    <Link className="change-on-hover" to={`/calling/${number}`}>
+                      <FontAwesomeIcon icon={faPhone} />
+                    </Link>
+                  </td>
+                  <td>
+                    <FontAwesomeIcon
+                      className="change-on-hover"
+                      icon={faTrash}
+                      onClick={() => handleDelete(_id)}
+                    />
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </>
       )}
     </>
   );
